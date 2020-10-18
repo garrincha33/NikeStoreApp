@@ -13,6 +13,7 @@ struct ContentView: View {
     var width = UIScreen.main.bounds.width
     @State var more = false
     @State var gender = "Male"
+    @State var size = 6
     
     var body: some View {
         
@@ -60,22 +61,22 @@ struct ContentView: View {
                         Text("Nike Air Hurrarche For Women")
                             .font(.title2)
                             .fontWeight(.heavy)
-                            .foregroundColor(Color.black)
+                            .foregroundColor(black)
                         Spacer(minLength: 0)
                         Text("£100")
                             .font(.title2)
                             .fontWeight(.heavy)
                             .foregroundColor(Color.red)
                     }
-                    .padding(.top, 50)
-                    .padding(.trailing, 25)
-                    VStack(alignment: .leading, spacing: 25) {
+                    .padding(.top, 19)
+                    .padding(.trailing, 20)
+                    VStack(alignment: .leading, spacing: 10) {
                         Text("relating to the beacon design element within a neoprene and spandex sock contained within the upper. The sock literally 'hugged' your foot and coupled with Nike's trademark air unit.")
                             .lineLimit(more ? nil : 3)
-                            .foregroundColor(Color.black)
+                            .foregroundColor(black)
                         Button(action: {withAnimation{more.toggle()}}) {
                             Text("Read More")
-                                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                                .fontWeight(.bold)
                                 .foregroundColor(Color.red)
                         }
                     } .padding([.vertical, .trailing])
@@ -91,13 +92,31 @@ struct ContentView: View {
                         Spacer()
                     }
                     .padding(.trailing)
-                    .padding(.top, 10)
+                    .padding(.top, -5)
+                    
+                    HStack(spacing: 15) {
+                        Text("Sizes")
+                            .fontWeight(.heavy)
+                            .foregroundColor(black)
+                            .frame(width: 75, alignment: .leading)
+
+                        ForEach(sizes, id: \.self) { title in
+                            SizeButton(size: $size, title: title)
+                        }
+
+                        Spacer()
+                    }
+                    .padding(.trailing)
+                    .padding(.top, 5)
+                    
+                    
+                    
                     
                     Spacer(minLength: 0)
                 }
                 .padding(.leading, 25)
             }
-            .padding(.top, 30)
+            .padding(.top, 5)
         }
         .background(Color("bg").ignoresSafeArea(.all, edges: .all))
         .ignoresSafeArea(.all, edges: .bottom)
@@ -110,7 +129,6 @@ struct customShape: Shape {
         return Path(path.cgPath)
      }
 }
-
 struct GenderButton: View {
     @Binding var gender: String
     var title: String
@@ -129,7 +147,25 @@ struct GenderButton: View {
         }
     }
 }
-
+struct SizeButton: View {
+    @Binding var size: Int
+    var title: Int
+    var black = Color.black.opacity(0.7)
+    
+    var body: some View {
+        Button(action: {size = title}) {
+            Text("\(title)")
+                .font(.caption)
+                .fontWeight(.bold)
+                .foregroundColor(size == title ? .white : black)
+                .frame(width: 30, height: 30)
+                .background(size == title ? Color.red : Color.white)
+                .cornerRadius(10)
+                .shadow(color: Color.black.opacity(0.2), radius: 5, x: 5, y: 5)
+        }
+    }
+}
+var sizes = [5,6,7,8,9,10]
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
