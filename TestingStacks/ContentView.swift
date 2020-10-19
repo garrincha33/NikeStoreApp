@@ -11,9 +11,12 @@ struct ContentView: View {
     
     var black = Color.black.opacity(0.7)
     var width = UIScreen.main.bounds.width
+    
     @State var more = false
     @State var gender = "Male"
     @State var size = 6
+    var edges = UIApplication.shared.windows.first?.safeAreaInsets
+    @State var added = false
     
     var body: some View {
         
@@ -49,7 +52,7 @@ struct ContentView: View {
             Image("shoe")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: width - 100)
+                .frame(width: width - (more ? 200 : 100))
                 .padding(.top, 25)
 
             ZStack {
@@ -106,13 +109,31 @@ struct ContentView: View {
 
                         Spacer()
                     }
+                    
                     .padding(.trailing)
                     .padding(.top, 5)
-                    
-                    
-                    
-                    
+  
                     Spacer(minLength: 0)
+                    
+                    Button(action: {added.toggle()}) {
+                        Label(title: {
+                            Text(added ? "Added" : "Add To Bag")
+                                .font(.title2)
+                                .foregroundColor(.white)
+                                .fontWeight(.heavy)
+                        }) {
+                            Image(systemName: added ? "checkmark.circle.fill": "cart.fill")
+                                .font(.system(size: 22))
+                                .foregroundColor(.white)
+                                
+                        }.padding(.vertical, 12)
+                        .frame(width: width - 55)
+                        .background(added ? Color.green : Color.red)
+                        .clipShape(Capsule())
+                        .padding(.leading, -25)
+                        .padding(.top)
+                        .padding(.bottom)
+                    }
                 }
                 .padding(.leading, 25)
             }
